@@ -1,4 +1,15 @@
 {
-  "name": "TodoMobile",
-  "displayName": "Todo Mobile"
+  "expo": {
+    "name": "Todo Mobile",
+    "slug": "todo-mobile",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "todo-mobile",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "bundleIdentifier": "com.todomd.mobile",
+      "supportsTablet": false
+    },
+    "platforms": ["ios"]
+  }
 }

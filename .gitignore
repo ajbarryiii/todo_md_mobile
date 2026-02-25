@@ -5,20 +5,15 @@ node_modules/
 .pnpm-store/
 pnpm-debug.log*
 
-# react native / metro
+# expo
 .expo/
-.expo-shared/
-.metro-health-check*
-metro-cache/
+dist/
+ios/
+android/
 
 # build artifacts
-dist/
 build/
 coverage/
-
-# iOS
-ios/Pods/
-ios/build/
 
 # ruby / bundler
 .bundle/
@@ -29,6 +24,7 @@ result
 
 # logs
 npm-debug.log*
+*.log
 
 # macOS
 .DS_Store

@@ -1,19 +1,18 @@
-import RNFS from 'react-native-fs';
+import { File, Paths } from 'expo-file-system';
 
-const TODO_FILE = `${RNFS.DocumentDirectoryPath}/todo.md`;
+const todoFile = new File(Paths.document, 'todo.md');
 
 export async function readTodoFile(): Promise<string> {
-  const exists = await RNFS.exists(TODO_FILE);
-  if (!exists) {
+  if (!todoFile.exists) {
     return '';
   }
-  return RNFS.readFile(TODO_FILE, 'utf8');
+  return await todoFile.text();
 }
 
 export async function writeTodoFile(content: string): Promise<void> {
-  await RNFS.writeFile(TODO_FILE, content, 'utf8');
+  todoFile.write(content);
 }
 
 export function getTodoFilePath(): string {
-  return TODO_FILE;
+  return todoFile.uri;
 }

@@ -1,5 +1,5 @@
 {
-  description = "Nix flake for the Todo mobile (React Native iOS) app";
+  description = "Nix flake for the Todo mobile (Expo / React Native iOS) app";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -44,7 +44,6 @@
             rubyPackages_3_3.bundler
             cocoapods
             watchman
-            jdk17
             git
             jq
           ];
@@ -60,16 +59,16 @@
             fi
 
             cat <<'EOF'
-            Todo mobile dev shell (iOS target):
-              - React Native toolchain (Node, pnpm, Ruby, CocoaPods, Watchman)
+            Todo mobile dev shell (Expo / iOS target):
+              - Expo + React Native toolchain (Node, pnpm, Ruby, CocoaPods, Watchman)
               - Uniwind + HeroUI compatible JS/CSS tooling baseline
               - Markdown DB source path available as $TODO_MD_PATH (when ../todo_md exists)
 
             Notes:
               - Xcode and iOS Simulator are provided by macOS, not Nix.
               - Run: pnpm install
-              - Then: bundle exec pod install --project-directory=ios
-              - Then: pnpm ios
+              - Then: pnpm prebuild    (generates ios/ via expo prebuild)
+              - Then: pnpm ios         (builds and launches in simulator)
             EOF
           '';
         };
