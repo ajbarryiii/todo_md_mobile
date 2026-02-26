@@ -6,6 +6,7 @@ export type AppConfig = {
   repo: string;
   branch: string;
   filePath: string;
+  notificationsEnabled: boolean;
 };
 
 const CONFIG_FILE = new File(Paths.document, 'config.json');
@@ -16,6 +17,7 @@ const DEFAULT_CONFIG: AppConfig = {
   repo: '',
   branch: 'main',
   filePath: 'todo.md',
+  notificationsEnabled: true,
 };
 
 export async function loadConfig(): Promise<AppConfig> {

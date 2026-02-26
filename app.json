@@ -8,8 +8,12 @@
     "userInterfaceStyle": "dark",
     "ios": {
       "bundleIdentifier": "com.todomd.mobile",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSUserNotificationUsageDescription": "Todo Mobile sends reminders for upcoming tasks."
+      }
     },
-    "platforms": ["ios"]
+    "platforms": ["ios"],
+    "plugins": ["expo-notifications"]
   }
 }

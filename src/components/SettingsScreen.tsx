@@ -3,6 +3,7 @@ import {
   Modal,
   Pressable,
   ScrollView,
+  Switch,
   Text,
   TextInput,
   View,
@@ -27,6 +28,7 @@ export default function SettingsScreen({ visible, onClose, onSave }: Props) {
   const [repo, setRepo] = useState('');
   const [branch, setBranch] = useState('main');
   const [filePath, setFilePath] = useState('todo.md');
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [status, setStatus] = useState('');
   const [testing, setTesting] = useState(false);
 
@@ -38,6 +40,7 @@ export default function SettingsScreen({ visible, onClose, onSave }: Props) {
       setRepo(config.repo);
       setBranch(config.branch || 'main');
       setFilePath(config.filePath || 'todo.md');
+      setNotificationsEnabled(config.notificationsEnabled);
       setToken(savedToken);
       setStatus('');
     })();
@@ -53,7 +56,7 @@ export default function SettingsScreen({ visible, onClose, onSave }: Props) {
   };
 
   const handleSave = async () => {
-    const config: AppConfig = { owner, repo, branch, filePath };
+    const config: AppConfig = { owner, repo, branch, filePath, notificationsEnabled };
     await Promise.all([saveConfig(config), saveToken(token)]);
     onSave();
   };
@@ -134,6 +137,25 @@ export default function SettingsScreen({ visible, onClose, onSave }: Props) {
             autoCapitalize="none"
             autoCorrect={false}
           />
+
+          <View
+            className="flex-row items-center justify-between rounded-xl px-4 py-3 mb-4"
+            style={{ backgroundColor: colors.overlay, borderWidth: 1, borderColor: colors.highlightMed }}>
+            <View className="flex-1 pr-3">
+              <Text className="text-sm" style={{ color: colors.text, fontFamily: fonts.semiBold }}>
+                Upcoming task reminders
+              </Text>
+              <Text className="text-xs mt-1" style={{ color: colors.subtle, fontFamily: fonts.regular }}>
+                Send local notifications before due tasks.
+              </Text>
+            </View>
+            <Switch
+              value={notificationsEnabled}
+              onValueChange={setNotificationsEnabled}
+              thumbColor={colors.text}
+              trackColor={{ false: colors.highlightMed, true: colors.iris }}
+            />
+          </View>
 
           <Pressable
             onPress={handleTestConnection}

@@ -24,6 +24,10 @@ import { loadConfig, loadToken, isConfigured } from './src/lib/config';
 import type { AppConfig } from './src/lib/config';
 import { fetchTodoFile, pushTodoFile } from './src/lib/github';
 import type { GitHubConfig } from './src/lib/github';
+import {
+  clearUpcomingTaskNotifications,
+  scheduleUpcomingTaskNotifications,
+} from './src/lib/notifications';
 import TodoItemRow from './src/components/TodoItem';
 import AddTodoInput from './src/components/AddTodoInput';
 import SettingsScreen from './src/components/SettingsScreen';
@@ -61,6 +65,7 @@ function Main(): React.JSX.Element {
   const [showSettings, setShowSettings] = useState(false);
   const [showAddInput, setShowAddInput] = useState(false);
   const [configured, setConfigured] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
   const linesRef = useRef<ParsedLine[]>([]);
   const shaRef = useRef<string | null>(null);
@@ -83,6 +88,7 @@ function Main(): React.JSX.Element {
     configRef.current = config;
     tokenRef.current = token;
     setConfigured(isConfigured(config, token));
+    setNotificationsEnabled(config.notificationsEnabled);
   }, []);
 
   const persist = useCallback((nextLines: ParsedLine[]) => {
@@ -198,6 +204,19 @@ function Main(): React.JSX.Element {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded, configured]);
+
+  useEffect(() => {
+    if (!loaded) {
+      return;
+    }
+    const syncNotifications = notificationsEnabled
+      ? scheduleUpcomingTaskNotifications(todos)
+      : clearUpcomingTaskNotifications();
+
+    syncNotifications.catch(() => {
+      // Silent fail — notifications are optional
+    });
+  }, [loaded, notificationsEnabled, todos]);
 
   const handleToggle = useCallback(
     (id: string) => {
